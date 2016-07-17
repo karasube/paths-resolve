@@ -7,6 +7,7 @@ Useful for bootstrapping.
 `npm install --save paths-resolve`
 
 ## Usage:
+
 ```javascript
 const pathsResolve = require('paths-resolve');
 
@@ -23,3 +24,10 @@ output something like:
   '/var/projects/my-project/my-subdir/file.js'
 ]
 ```
+
+## Options:
+`extensions: []` allowed extensions (.js, .json, .whatever, ...)
+
+`exclude: []` exclude files (index.js, something.json, etc...)
+
+`onFound: (absolutePath) => absolutePath` act on value **before** it is pushed and returned. ***Always*** return or you'll get undefined.

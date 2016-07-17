@@ -27,6 +27,7 @@ function pathsResolve(directory, opts, container) {
   let allowedExtensions = opts.extensions || [];
   let files = container || [];
   let excludeDotFiles = opts.excludeDotFiles || true;
+  let actFn = (typeof opts.onFound === 'function' ? opts.onFound : false);
 
   let filesFound = fs.readdirSync(directory);
 
@@ -39,7 +40,7 @@ function pathsResolve(directory, opts, container) {
     } else if ((excludeDotFiles && file[0] === '.') || omits.includes(file) || !allowedExtensions.includes(path.extname(file))) {
       continue;
     } else {
-      files.push(absolutePath);
+      files.push((actFn ? actFn(absolutePath) : absolutePath));
     }
   }
 
