@@ -1,6 +1,6 @@
 {
   "name": "paths-resolve",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Recursively walk through a directory and return files absolute paths",
   "main": "index.js",
   "scripts": {
