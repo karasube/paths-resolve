@@ -1,0 +1,23 @@
+{
+  "name": "paths-resolve",
+  "version": "1.0.0",
+  "description": "Recursively walk through a directory and return files absolute paths",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "keywords": [
+    "recursive",
+    "walk",
+    "directory",
+    "resolve",
+    "path",
+    "absolute"
+  ],
+  "author": "KOCH Maxence",
+  "license": "MIT",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.5.3"
+  }
+}
