@@ -6,7 +6,7 @@ describe('pathsResolve()', function() {
     let dummyDirectory = __dirname + '/dummy';
     let files = pathsResolve(dummyDirectory, {
       extensions: ['.js'],
-      onFound: (absolutePath) => 'found' 
+      onFound: (absolutePath) => absolutePath
     });
 
     let expectedResults = [
