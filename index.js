@@ -7,10 +7,9 @@ const path = require('path');
  * Good for bootstrapping an application.
  *
  * @function
- * @name recursiveWalk
+ * @name pathsResolve
  * @param {String} directory Absolute or relative path to start crawling.
- * @param {Array} omits Files to ignore. (Comparaison is 1=1 or firstLetter=1)
- * @param {Array} allowedExtensions Extensions to ignore. (Comparaison is 1=1)
+ * @param {Object} Configuration object (Comparaison is 1=1 or firstLetter=1)
  * @param {Array} [container=[]] A list of files to keep populate.
  *
  * @return {Array} Absolute paths of resolved files in directory.
@@ -21,25 +20,30 @@ const path = require('path');
  * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/includes}
  * @see {@link https://en.wikipedia.org/wiki/Recursion_(computer_science)}
  */
-function pathsResolve(directory, omits, allowedExtensions, container) {
-    let files = container || [];
+function pathsResolve(directory, opts, container) {
+  opts = opts || {};
 
-    let filesFound = fs.readdirSync(directory);
+  let omits = opts.exclude || [];
+  let allowedExtensions = opts.extensions || [];
+  let files = container || [];
+  let excludeDotFiles = opts.excludeDotFiles || true;
 
-    for (let i = 0, count = filesFound.length; i < count; i++) {
-        let file = filesFound[i];
-        let absolutePath = path.resolve(directory, file);
+  let filesFound = fs.readdirSync(directory);
 
-        if (fs.statSync(absolutePath).isDirectory()) {
-            files = pathsResolve(absolutePath, omits, allowedExtensions, files);
-        } else if (file[0] === '.' || omits.includes(file) || !allowedExtensions.includes(path.extname(file))) {
-            continue;
-        } else {
-            files.push(absolutePath);
-        }
+  for (let i = 0, count = filesFound.length; i < count; i++) {
+    let file = filesFound[i];
+    let absolutePath = path.resolve(directory, file);
+
+    if (fs.statSync(absolutePath).isDirectory()) {
+      files = pathsResolve(absolutePath, opts, files);
+    } else if ((excludeDotFiles && file[0] === '.') || omits.includes(file) || !allowedExtensions.includes(path.extname(file))) {
+      continue;
+    } else {
+      files.push(absolutePath);
     }
+  }
 
-    return files;
+  return files;
 }
 
 module.exports = pathsResolve;
